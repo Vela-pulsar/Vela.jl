@@ -63,6 +63,7 @@ def plot(
     include_params: Iterable[str] = None,
     plot_priors: bool = False,
     outfile: str = None,
+    labelsize: float = 12.0,
     labelpad: float = 0.2,
     range_quantile: float = 0.999,
     plot_prefit: bool = False,
@@ -111,7 +112,7 @@ def plot(
         samples[:, param_plot_mask],
         bins=32,
         labels=plot_labels,
-        label_kwargs={"fontsize": 11},
+        label_kwargs={"fontsize": labelsize},
         labelpad=labelpad,
         max_n_ticks=3,
         plot_datapoints=False,
@@ -122,9 +123,9 @@ def plot(
     )
 
     for ax in fig.get_axes():
-        ax.tick_params(axis="both", labelsize=11)
-        ax.yaxis.get_offset_text().set_fontsize(10)
-        ax.xaxis.get_offset_text().set_fontsize(10)
+        ax.tick_params(axis="both", labelsize=labelsize - 1)
+        ax.yaxis.get_offset_text().set_fontsize(labelsize - 2)
+        ax.xaxis.get_offset_text().set_fontsize(labelsize - 2)
 
     nplots = len(param_plot_mask)
     if plot_priors:
@@ -142,7 +143,7 @@ def plot(
     for ii, (median, nmad) in enumerate(zip(medians, nmads)):
         plt.subplot(nplots, nplots, ii * (nplots + 1) + 1)
         uf = ufloat(median, nmad)
-        plt.title(f"{uf:.1uS}", fontsize=12)
+        plt.title(f"{uf:.1uS}", fontsize=labelsize)
 
     ax = plt.subplot(5, 3, 3)
     if plot_prefit:
@@ -156,9 +157,9 @@ def plot(
             color="orange",
             label="Pre-fit",
         )
-    ax.set_ylabel("Time res (pre) (s)", fontsize=13)
+    ax.set_ylabel("Time res (pre) (s)", fontsize=labelsize)
     # ax.legend()
-    ax.tick_params(axis="both", labelsize=11)
+    ax.tick_params(axis="both", labelsize=labelsize - 1)
 
     ax1 = ax.twinx()
     if plot_prefit:
@@ -173,10 +174,10 @@ def plot(
         color="blue",
         label="Post fit whitened",
     )
-    ax1.legend(fontsize=13)
-    ax1.set_ylabel("Time res (post) (s)", fontsize=13)
+    ax1.legend(fontsize=labelsize)
+    ax1.set_ylabel("Time res (post) (s)", fontsize=labelsize)
     ax1.axhline(0, ls="dotted", color="k")
-    ax1.tick_params(axis="both", labelsize=11)
+    ax1.tick_params(axis="both", labelsize=labelsize - 1)
 
     if wb:
         plt.xticks([])
@@ -193,8 +194,8 @@ def plot(
                 label="Pre-fit",
             )
 
-        ax.set_ylabel("DM res (pre) (dmu)", fontsize=13)
-        ax.tick_params(axis="both", labelsize=11)
+        ax.set_ylabel("DM res (pre) (dmu)", fontsize=labelsize)
+        ax.tick_params(axis="both", labelsize=labelsize - 1)
 
         ax1 = ax.twinx()
         ax1.errorbar(
@@ -207,11 +208,11 @@ def plot(
             color="blue",
             label="Post fit whitened",
         )
-        ax1.set_ylabel("DM res (post) (dmu)", fontsize=13)
+        ax1.set_ylabel("DM res (post) (dmu)", fontsize=labelsize)
         ax1.axhline(0, ls="dotted", color="k")
-        ax1.tick_params(axis="both", labelsize=11)
+        ax1.tick_params(axis="both", labelsize=labelsize - 1)
 
-    ax.set_xlabel("MJD - PEPOCH", fontsize=13)
+    ax.set_xlabel("MJD - PEPOCH", fontsize=labelsize)
 
     ax3 = plt.subplot(5, 3, 2)
     ax3.set_ylim((0, 1))
@@ -233,7 +234,7 @@ def plot(
             0,
             0,
             summary_text,
-            fontsize=14,
+            fontsize=labelsize + 2,
         )
     else:
         weights_t = 1 / terr**2
@@ -253,12 +254,12 @@ def plot(
             0,
             0,
             summary_text,
-            fontsize=14,
+            fontsize=labelsize + 2,
         )
 
     psrname = results.psrname
     if psrname is not None:
-        plt.suptitle(psrname, y=0.98, x=0.4, fontsize=20)
+        plt.suptitle(psrname, y=0.98, x=0.4, fontsize=labelsize + 8)
 
     plt.subplots_adjust(
         left=0.05, right=0.95, top=0.95, bottom=0.05, wspace=0, hspace=0
