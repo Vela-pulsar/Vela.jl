@@ -22,6 +22,7 @@
 - `get_start_samples()` function.
 ## Removed
 - Unused delay/phase code for GP components.
+- `SPNTA.model_pint_modified` attribute.
 
 # 0.1.6
 ## Added
