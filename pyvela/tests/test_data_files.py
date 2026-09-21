@@ -185,7 +185,7 @@ def test_data(model_and_toas: Tuple[SPNTA, TimingModel, TOAs]):
                 1, spnta.model_pint["PB"].value
             )
 
-    assert "PHOFF" in spnta.model_pint_modified
+    assert "PHOFF" in spnta.model_pint
 
 
 def test_likelihood(model_and_toas):
