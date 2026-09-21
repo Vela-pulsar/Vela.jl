@@ -2,6 +2,7 @@ import datetime
 import getpass
 import json
 import os
+import pickle
 import platform
 import sys
 import warnings
@@ -804,6 +805,21 @@ class SPNTA:
             spnta._check()
 
         return spnta
+
+    def save_picle(self, filename: str):
+        with open(filename, "wb") as pklfile:
+            pickle.dump(
+                [
+                    self.model_pint,
+                    self.toas_pint,
+                    self.analytic_marginalized_params,
+                    self.analytic_marginalized_param_prior_stds,
+                    self.cheat_prior_scale,
+                    self.custom_priors,
+                    self.center_epochs,
+                    self.model_pint.get_TZR_toa(self.toas_pint),
+                ]
+            )
 
     def update_pint_model(self, samples: np.ndarray) -> TimingModel:
         """Return an updated PINT `TimingModel` based on posterior samples."""
