@@ -166,8 +166,7 @@ class SPNTA:
             model_pint, toas_pint, analytic_marginalized_params, custom_priors
         )
 
-        self.model_pint = deepcopy(model_pint)
-        self.model_pint_modified = model_pint
+        self.model_pint = model_pint
         self.toas_pint = toas_pint
 
         # Use the original PINT TimingModel object.
@@ -716,7 +715,6 @@ class SPNTA:
             allow_tcb=True,
             add_tzr_to_model=True,
         )
-        spnta.model_pint_modified = None
 
         if check:
             spnta._check()
@@ -752,8 +750,6 @@ class SPNTA:
         spnta.center_epochs = center_epochs
         if center_epochs:
             center_model_epochs(spnta.model_pint, spnta.toas_pint)
-
-        spnta.model_pint_modified = deepcopy(spnta.model_pint)
 
         spnta.parfile = spnta.model_pint.name
         spnta.timfile = spnta.toas_pint.filename
@@ -807,7 +803,7 @@ class SPNTA:
 
     def update_pint_model(self, samples: np.ndarray) -> TimingModel:
         """Return an updated PINT `TimingModel` based on posterior samples."""
-        mp: TimingModel = deepcopy(self.model_pint_modified)
+        mp: TimingModel = deepcopy(self.model_pint)
 
         scaled_samples = self.rescale_samples(samples)
 
@@ -917,11 +913,8 @@ class SPNTA:
         param_vals = self.rescale_samples(params)
         param_errs = self.rescale_samples(param_uncertainties)
 
-        model1 = (
-            deepcopy(self.model_pint_modified)
-            if self.model_pint_modified is not None
-            else self.model_pint
-        )
+        model1 = deepcopy(self.model_pint)
+
         for pname, pval, perr in zip(self.param_names, param_vals, param_errs):
             if pname in model1:
                 if pname == "F0":
