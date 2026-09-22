@@ -20,6 +20,7 @@
 - Make `get_dmx_mask()` faster.
 - `check` option included in `SPNTA.from_pint()` and `SPNTA.load_jlso()`.
 - `get_start_samples()` function.
+- In `fix_params()`, don't add `PL*FREQ` params to model if it already exists.
 ## Removed
 - Unused delay/phase code for GP components.
 - `SPNTA.model_pint_modified` attribute.

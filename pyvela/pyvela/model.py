@@ -441,7 +441,7 @@ def fix_params(model: TimingModel, toas: TOAs) -> None:
         ["PLRedNoise", "PLDMNoise", "PLChromNoise"],
         ["PLREDFREQ", "PLDMFREQ", "PLCHROMFREQ"],
     ):
-        if plgpnoise in model.components:
+        if plgpnoise in model.components and freq_param not in model:
             model.components[plgpnoise].add_param(
                 floatParameter(
                     name=freq_param,
